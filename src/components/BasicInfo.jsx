@@ -1,10 +1,10 @@
 import React from "react";
 
-const BasicInfo = ({ continueSubmit, handleChange, formData }) => {
+const BasicInfo = ({ basicInfoSubmit, handleChange, formData }) => {
     return (
         <>
             <h1 className="text-4xl font-medium">Lets get to know you</h1>
-            <form className="flex flex-col" onSubmit={continueSubmit}>
+            <form className="flex flex-col" onSubmit={basicInfoSubmit}>
                 <label htmlFor="firstName">First Name</label>
                 <input
                     className="border border-black rounded-md p-1 my-2"

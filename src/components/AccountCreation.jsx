@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import SignUp from "./SignUp";
 import BasicInfo from "./BasicInfo";
 import useFetch from "../hooks/useFetch";
+import TrainingPreferenceGoal from "./TrainingPreferenceGoal";
+import FitnessLevel from "./FitnessLevel";
+import AvailableTime from "./availableTime";
 
 const AccountCreation = () => {
     const fetchData = useFetch();
@@ -14,6 +17,10 @@ const AccountCreation = () => {
         gender: "",
         height: "",
         weight: "",
+        trainingGoal: "",
+        startingFitnessLevel: "",
+        availableDaysToTrain: 0,
+        availableTimetoTrain: "",
     });
 
     const [validation, setValidation] = useState({
@@ -72,6 +79,22 @@ const AccountCreation = () => {
         }
     };
 
+    const createTrainingPreference = async (formData) => {
+        const { ok, msg } = await fetchData(
+            "/update/preferences",
+            "POST",
+            formData,
+            true
+        );
+
+        if (ok) {
+            alert("physical preference recorded");
+        } else {
+            console.error(msg);
+            alert("physical preference failed to record: ");
+        }
+    };
+
     const handleChange = (e) => {
         const { name: fieldName, value: fieldValue } = e.target;
 
@@ -124,7 +147,11 @@ const AccountCreation = () => {
             fieldName === "dob" ||
             fieldName === "gender" ||
             fieldName == "height" ||
-            fieldName == "weight"
+            fieldName == "weight" ||
+            fieldName == "trainingGoal" ||
+            fieldName == "startingFitnessLevel" ||
+            fieldName == "availableDaysToTrain" ||
+            fieldName == "availableTimetoTrain"
         ) {
             setFormData((prevData) => ({
                 ...prevData,
@@ -139,10 +166,15 @@ const AccountCreation = () => {
         console.log("User registered:", formData);
     };
 
-    const continueSubmit = (e) => {
+    const basicInfoSubmit = (e) => {
         e.preventDefault();
         updateUser(formData);
         createPhysicalMeasurement(formData);
+    };
+
+    const trainingPreferenceSubmit = (e) => {
+        e.preventDefault();
+        createTrainingPreference(formData);
     };
 
     return (
@@ -155,7 +187,22 @@ const AccountCreation = () => {
                     validation={validation}
                 />
                 <BasicInfo
-                    continueSubmit={continueSubmit}
+                    basicInfoSubmit={basicInfoSubmit}
+                    handleChange={handleChange}
+                    formData={formData}
+                />
+                <TrainingPreferenceGoal
+                    trainingPreferenceSubmit={trainingPreferenceSubmit}
+                    handleChange={handleChange}
+                    formData={formData}
+                />
+                <FitnessLevel
+                    trainingPreferenceSubmit={trainingPreferenceSubmit}
+                    handleChange={handleChange}
+                    formData={formData}
+                />
+                <AvailableTime
+                    trainingPreferenceSubmit={trainingPreferenceSubmit}
                     handleChange={handleChange}
                     formData={formData}
                 />
