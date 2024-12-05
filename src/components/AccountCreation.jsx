@@ -5,6 +5,7 @@ import useFetch from "../hooks/useFetch";
 import TrainingPreferenceGoal from "./TrainingPreferenceGoal";
 import FitnessLevel from "./FitnessLevel";
 import AvailableTime from "./availableTime";
+import EquipmentAccess from "./EquipmentAccess";
 
 const AccountCreation = () => {
     const fetchData = useFetch();
@@ -21,6 +22,7 @@ const AccountCreation = () => {
         startingFitnessLevel: "",
         availableDaysToTrain: 0,
         availableTimetoTrain: "",
+        accessToEquipmentLevel: "",
     });
 
     const [validation, setValidation] = useState({
@@ -95,6 +97,21 @@ const AccountCreation = () => {
         }
     };
 
+    const createEquipmentAccess = async (formData) => {
+        const { ok, msg } = (await fetchData(
+            "/update/accessToEquipments",
+            "POST",
+            formData,
+            true
+        ));
+        if (ok) {
+            alert("Equipment access recorded");
+        } else {
+            console.error(msg);
+            alert("Equipment access failed to record:");
+        }
+    };
+
     const handleChange = (e) => {
         const { name: fieldName, value: fieldValue } = e.target;
 
@@ -151,7 +168,8 @@ const AccountCreation = () => {
             fieldName == "trainingGoal" ||
             fieldName == "startingFitnessLevel" ||
             fieldName == "availableDaysToTrain" ||
-            fieldName == "availableTimetoTrain"
+            fieldName == "availableTimetoTrain" ||
+            fieldName == "accessToEquipmentLevel"
         ) {
             setFormData((prevData) => ({
                 ...prevData,
@@ -177,8 +195,13 @@ const AccountCreation = () => {
         createTrainingPreference(formData);
     };
 
+    const equipmentAccessSubmit = (e) => {
+        e.preventDefault();
+        createEquipmentAccess(formData);
+    };
+
     return (
-        <div className="flex flex-col justify-center items-center h-screen">
+        <div className="flex flex-col items-center h-screen">
             <div className="flex-col w-6/12">
                 <SignUp
                     handleSubmit={handleSubmit}
@@ -203,6 +226,11 @@ const AccountCreation = () => {
                 />
                 <AvailableTime
                     trainingPreferenceSubmit={trainingPreferenceSubmit}
+                    handleChange={handleChange}
+                    formData={formData}
+                />
+                <EquipmentAccess
+                    equipmentAccessSubmit={equipmentAccessSubmit}
                     handleChange={handleChange}
                     formData={formData}
                 />
