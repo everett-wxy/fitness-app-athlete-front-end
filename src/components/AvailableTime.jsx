@@ -1,6 +1,10 @@
 import React from "react";
 
-const AvailableTime = ({ trainingPreferenceSubmit, handleChange, formData }) => {
+const AvailableTime = ({
+    trainingPreferenceSubmit,
+    handleChange,
+    formData,
+}) => {
     return (
         <>
             <h1 className="text-4xl font-medium">
@@ -34,34 +38,23 @@ const AvailableTime = ({ trainingPreferenceSubmit, handleChange, formData }) => 
                         How long will your training sessions be?
                     </label>
                     <input
-                        type="radio"
+                        type="range"
+                        id="trainingTimeSlider"
                         name="availableTimetoTrain"
-                        value="15-30 mins"
-                        id="15-30mins"
-                        checked={formData.availableTimetoTrain === "15-30 mins"}
+                        min="15"
+                        max="60"
+                        step="15"
+                        value={formData.availableTimetoTrain}
                         onChange={handleChange}
+                        className="my-2"
                     />
-                    <label htmlFor="15-30mins">15-30 mins</label>
-
-                    <input
-                        type="radio"
-                        name="availableTimetoTrain"
-                        value="45 mins"
-                        id="45mins"
-                        checked={formData.availableTimetoTrain === "45 mins"}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="45mins">45 mins</label>
-
-                    <input
-                        type="radio"
-                        name="availableTimetoTrain"
-                        value="60 mins"
-                        id="60mins"
-                        checked={formData.availableTimetoTrain === "60 mins"}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="60mins">60 mins</label>
+                     <div className="flex justify-between">
+                        <span>15 mins</span>
+                        <span>30 mins</span>
+                        <span>45 mins</span>
+                        <span>60 mins</span>
+                    </div>
+                    <span>Selected: {formData.availableTimetoTrain} mins</span>
                 </div>
                 <button
                     className="border border-black rounded-md p-1 my-2"

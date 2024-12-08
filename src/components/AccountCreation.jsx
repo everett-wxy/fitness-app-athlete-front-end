@@ -6,9 +6,13 @@ import TrainingPreferenceGoal from "./TrainingPreferenceGoal";
 import FitnessLevel from "./FitnessLevel";
 import AvailableTime from "./availableTime";
 import EquipmentAccess from "./EquipmentAccess";
+import { useWorkOutProgramContext } from "../context/WorkoutProgramContext";
+import { useNavigate } from "react-router-dom";
+
 
 const AccountCreation = () => {
     const fetchData = useFetch();
+    const [currentStep, setCurrentStep] = useState(6);
     const [formData, setFormData] = useState({
         email: "everett@gmail.com",
         password: "Password123",
@@ -21,9 +25,12 @@ const AccountCreation = () => {
         trainingGoal: "",
         startingFitnessLevel: "",
         availableDaysToTrain: 0,
-        availableTimetoTrain: "",
+        availableTimetoTrain: 0,
         accessToEquipmentLevel: "",
     });
+    const { updateWorkoutProgram  }= useWorkOutProgramContext();
+    const navigate = useNavigate();
+
 
     const [validation, setValidation] = useState({
         passwordValidation: true,
@@ -42,7 +49,8 @@ const AccountCreation = () => {
         if (ok) {
             const { status, message, token } = data;
             localStorage.setItem("token", token);
-            alert("Signed up successfully");
+            console.log("User registered");
+            setCurrentStep(2);
         } else {
             console.error(msg);
             alert("signed up failed");
@@ -58,7 +66,7 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            alert("User details updated");
+            console.log("User details updated");
         } else {
             console.error(msg);
             alert("User details update failed");
@@ -74,7 +82,7 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            alert("physical measurement recorded");
+            console.log("physical measurement recorded");
         } else {
             console.error(msg);
             alert("physical measurement failed to record: ");
@@ -90,7 +98,9 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            alert("physical preference recorded");
+            console.log("Training preference recorded: ");
+
+            setCurrentStep((prevStep) => prevStep + 1);
         } else {
             console.error(msg);
             alert("physical preference failed to record: ");
@@ -98,17 +108,38 @@ const AccountCreation = () => {
     };
 
     const createEquipmentAccess = async (formData) => {
-        const { ok, msg } = (await fetchData(
+        const { ok, msg } = await fetchData(
             "/update/accessToEquipments",
             "POST",
             formData,
             true
-        ));
+        );
         if (ok) {
             alert("Equipment access recorded");
         } else {
             console.error(msg);
             alert("Equipment access failed to record:");
+        }
+    };
+
+    const generateWorkout = async () => {
+        const { ok, msg, data } = await fetchData(
+            "/workoutProgram/create",
+            "POST",
+            null,
+            true
+        );
+    
+        if (ok) {
+            // If successful, alert the user and handle the workout data
+            alert("Workout program generated");
+            console.log("Generated workout program:", data); // Log the workout data to check
+
+            updateWorkoutProgram(data.trainingProgram);
+            navigate("/workoutProgram");
+        } else {
+            console.error(msg);
+            alert("Workout program failed to generate");
         }
     };
 
@@ -181,13 +212,13 @@ const AccountCreation = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         registerNewUser(formData);
-        console.log("User registered:", formData);
     };
 
     const basicInfoSubmit = (e) => {
         e.preventDefault();
         updateUser(formData);
         createPhysicalMeasurement(formData);
+        setCurrentStep(3);
     };
 
     const trainingPreferenceSubmit = (e) => {
@@ -198,42 +229,67 @@ const AccountCreation = () => {
     const equipmentAccessSubmit = (e) => {
         e.preventDefault();
         createEquipmentAccess(formData);
+        generateWorkout();
+    };
+
+    const handleBack = () => {
+        setCurrentStep((prevStep) => prevStep - 1);
     };
 
     return (
-        <div className="flex flex-col items-center h-screen">
+        <div className="flex flex-col justify-center items-center h-screen">
             <div className="flex-col w-6/12">
-                <SignUp
-                    handleSubmit={handleSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                    validation={validation}
-                />
-                <BasicInfo
-                    basicInfoSubmit={basicInfoSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                />
-                <TrainingPreferenceGoal
-                    trainingPreferenceSubmit={trainingPreferenceSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                />
-                <FitnessLevel
-                    trainingPreferenceSubmit={trainingPreferenceSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                />
-                <AvailableTime
-                    trainingPreferenceSubmit={trainingPreferenceSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                />
-                <EquipmentAccess
-                    equipmentAccessSubmit={equipmentAccessSubmit}
-                    handleChange={handleChange}
-                    formData={formData}
-                />
+                {currentStep === 1 && (
+                    <SignUp
+                        handleSubmit={handleSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                        validation={validation}
+                    />
+                )}
+                {currentStep === 2 && (
+                    <BasicInfo
+                        basicInfoSubmit={basicInfoSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                )}
+                {currentStep === 3 && (
+                    <TrainingPreferenceGoal
+                        trainingPreferenceSubmit={trainingPreferenceSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                )}
+                {currentStep === 4 && (
+                    <FitnessLevel
+                        trainingPreferenceSubmit={trainingPreferenceSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                )}
+                {currentStep === 5 && (
+                    <AvailableTime
+                        trainingPreferenceSubmit={trainingPreferenceSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                )}
+                {currentStep === 6 && (
+                    <EquipmentAccess
+                        equipmentAccessSubmit={equipmentAccessSubmit}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                )}
+                {currentStep > 2 && (
+                    <button
+                        onClick={handleBack}
+                        className="bg-gray-500 text-white p-2 rounded mt-4"
+                    >
+                        Back
+                    </button>
+                )}
             </div>
         </div>
     );
