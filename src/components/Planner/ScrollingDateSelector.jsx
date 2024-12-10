@@ -66,13 +66,11 @@ const ScrollingDateSelector = ({
     });
 
     return (
-        <>
-            <div className="flex justify-between items-center mt-2">
+            <div className="flex justify-between items-center my-5">
                 <FaArrowLeft onClick={handleArrowLeft} />
                 {datesOfWeek}
                 <FaArrowRight onClick={handleArrowRight} />
             </div>
-        </>
     );
 };
 

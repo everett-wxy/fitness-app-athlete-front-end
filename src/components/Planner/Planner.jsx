@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DateHeader from "./DateHeader";
 import ScrollingDateSelector from "./ScrollingDateSelector";
+import CurrentProgram from "./CurrentProgram";
+import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 
 const Planner = () => {
-    const currentDate = new Date(); // current date e.g, Mon Dec 09 2024 00:18:38 GMT+0800 (Singapore Standard Time)
+    useWorkoutProgram();
+    const { workoutProgram } = useWorkOutProgramContext();
+    const currentDate = new Date(); 
+
 
     const [focusedDate, setFocusedDate] = useState(currentDate);
     const [headerFocusDate, setheaderFocusDate] = useState(focusedDate);
@@ -12,9 +18,6 @@ const Planner = () => {
         setFocusedDate(selectedDate); 
         setheaderFocusDate(selectedDate);
     };
-
-    console.log("Focused Date:", focusedDate); // Check focusedDate here
-    
 
     return (
         <div className="flex justify-center">
@@ -29,6 +32,7 @@ const Planner = () => {
                     onDateSelect={handleDateSelect}
                     focusedDate={focusedDate}
                 />
+                <CurrentProgram headerFocusDate={headerFocusDate}/>
             </div>
         </div>
     );

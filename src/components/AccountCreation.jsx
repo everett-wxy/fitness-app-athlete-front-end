@@ -6,13 +6,12 @@ import TrainingPreferenceGoal from "./TrainingPreferenceGoal";
 import FitnessLevel from "./FitnessLevel";
 import AvailableTime from "./availableTime";
 import EquipmentAccess from "./EquipmentAccess";
-import { useWorkOutProgramContext } from "../context/WorkoutProgramContext";
 import { useNavigate } from "react-router-dom";
 
 
 const AccountCreation = () => {
     const fetchData = useFetch();
-    const [currentStep, setCurrentStep] = useState(6);
+    const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         email: "everett@gmail.com",
         password: "Password123",
@@ -28,7 +27,6 @@ const AccountCreation = () => {
         availableTimetoTrain: 0,
         accessToEquipmentLevel: "",
     });
-    const { updateWorkoutProgram  }= useWorkOutProgramContext();
     const navigate = useNavigate();
 
 
@@ -133,9 +131,7 @@ const AccountCreation = () => {
         if (ok) {
             // If successful, alert the user and handle the workout data
             alert("Workout program generated");
-            console.log("Generated workout program:", data); // Log the workout data to check
-
-            updateWorkoutProgram(data.trainingProgram);
+            // updateWorkoutProgram(data.trainingProgram);
             navigate("/workoutProgram");
         } else {
             console.error(msg);
@@ -226,10 +222,14 @@ const AccountCreation = () => {
         createTrainingPreference(formData);
     };
 
-    const equipmentAccessSubmit = (e) => {
+    const equipmentAccessSubmit = async (e) => {
         e.preventDefault();
-        createEquipmentAccess(formData);
-        generateWorkout();
+        try {
+            await createEquipmentAccess(formData); 
+            await generateWorkout();                  
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     };
 
     const handleBack = () => {

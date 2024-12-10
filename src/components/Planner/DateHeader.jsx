@@ -6,7 +6,7 @@ const DateHeader = ({ headerFocusDate }) => {
 
     return (
         <>
-            <h1 className="text-2xl font-semibold">
+            <h1 className="text-5xl font-bold my-5">
                 {month}, {year}
             </h1>
         </>
