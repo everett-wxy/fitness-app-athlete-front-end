@@ -27,12 +27,19 @@ const CurrentProgram = ({ displayDate }) => {
             return monday;
         };
 
+        const resetDateToMidnight = (date) => {
+            date.setHours(0,0,0,0);
+            return date; 
+        }
+
         for (const session of sessions) {
             const sessionDate = new Date(session.session_date);
             const sessionWeekMonday = getMondayOfWeek(sessionDate);
-    
+            let convertedDisplayDate = resetDateToMidnight(displayDate);
+            let convertedSessionWeekMonday = resetDateToMidnight(sessionWeekMonday);
+            
             // Compare weeks
-            if (displayDate.getDate() === sessionWeekMonday.getDate()) {
+            if (convertedDisplayDate.getTime() === convertedSessionWeekMonday.getTime()) {
                 return session.week_of_training; // Return the matched week_of_training
             }
         }

@@ -13,7 +13,7 @@ export const WorkoutProgramProvider = ({ children }) => {
     const [workoutProgram, setWorkoutProgram] = useState(null);
 
     const updateWorkoutProgram = (data) => {
-        console.log("Workout Program Updated:", data); // Check data here
+
         setWorkoutProgram(data);
     };
 
