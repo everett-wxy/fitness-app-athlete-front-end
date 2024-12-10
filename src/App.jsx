@@ -5,6 +5,7 @@ import Login from "./components/Login.jsx";
 import AccountCreation from "./components/AccountCreation.jsx";
 import WorkoutProgram from "./components/WorkoutProgram/WorkoutProgram.jsx";
 import Planner from "./components/Planner/Planner.jsx";
+import SessionDetails from "./components/WorkoutSession/SessionDetails.jsx";
 
 function App() {
     return (
@@ -17,7 +18,8 @@ function App() {
                         path="/workoutProgram"
                         element={<WorkoutProgram />}
                     />
-                    <Route path="/planner" element={<Planner />} />'
+                    <Route path="/planner" element={<Planner />} />
+                    <Route path="/session-details/:sessionId" element={<SessionDetails />} />
                 </Routes>
             </Router>
         </WorkoutProgramProvider>

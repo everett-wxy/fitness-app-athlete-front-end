@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
 import useWorkoutProgram from "../../hooks/useWorkoutProgram";
+import { useNavigate } from "react-router-dom";
 
 const SessionModule = ({ session }) => {
     useWorkoutProgram();
     const { workoutProgram } = useWorkOutProgramContext();
+    const navigate = useNavigate();
 
     if (!session || !workoutProgram) {
         return <div>No session or workout program available</div>;
@@ -33,12 +35,23 @@ const SessionModule = ({ session }) => {
                     {session.week_of_training} | Session {session.session_no}
                 </p>
                 <p className="text-2xl font-semibold">{session.title}</p>
-                <p>{session.length} minutes | {numOfExercise} exercises </p>
-                <button className="bg-blue-500 text-white px-3 py-1 rounded-md"> Start Session</button>
+                <p>
+                    {session.length} minutes | {numOfExercise} exercises{" "}
+                </p>
+                <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                    onClick={() =>
+                        navigate(`/session-details/${session.session_id}`, {
+                            state: { session },
+                        })
+                    }
+                >
+                    {" "}
+                    Start Session
+                </button>
             </div>
         </div>
     );
 };
 
 export default SessionModule;
-    
