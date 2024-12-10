@@ -3,25 +3,52 @@ import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
 import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 import ProgressBar from "./ProgressBar";
 
-const CurrentProgram = ({ headerFocusDate }) => {
-    useWorkoutProgram();
+const CurrentProgram = ({ displayDate }) => {
 
+    useWorkoutProgram();
     const { workoutProgram } = useWorkOutProgramContext();
+
     const imgLink =
         "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
-    
     const totalSessions = workoutProgram?.sessions?.length;
-    const completedSessions = workoutProgram?.sessions?.filter(session => session.completed).length; 
-    const percentageCompleted = (completedSessions / totalSessions) * 100;
+    const completedSessions = workoutProgram?.sessions?.filter(
+        (session) => session.completed
+    ).length;
+
+    // function to getWeekOfTraining 
+    const getWeekOfTraining = (displayDate, sessions) => {
+
+        const getMondayOfWeek = (date) => {
+            const dayOfWeek = date.getDay();
+            const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            const monday = new Date(date);
+            monday.setDate(date.getDate() + diff);
+            return monday;
+        };
+
+        for (const session of sessions) {
+            const sessionDate = new Date(session.session_date);
+            const sessionWeekMonday = getMondayOfWeek(sessionDate);
     
+            // Compare weeks
+            if (displayDate.getDate() === sessionWeekMonday.getDate()) {
+                return session.week_of_training; // Return the matched week_of_training
+            }
+        }
+
+        return null; // Return null if no match is found
+
+    }
+
+    const weekOfTraining = workoutProgram?.sessions ? getWeekOfTraining(displayDate, workoutProgram.sessions) : null;
 
     return (
         <>
             <h1 className="text-2xl font-semibold mt-5">Current Program</h1>
             <div className="mt-5 flex border border-black">
-                {!workoutProgram || !workoutProgram.program ? (
-                    <p>No workout program available. Please generate one.</p> // This will show if workoutProgram is empty
+                {!workoutProgram || !workoutProgram.program || !weekOfTraining ? (
+                    <p>No workout program scheduled for this week. Please generate one.</p>
                 ) : (
                     <>
                         <img
@@ -33,13 +60,21 @@ const CurrentProgram = ({ headerFocusDate }) => {
                                 objectFit: "cover",
                             }}
                         />
-                        <div className="ml-5 flex flex-col justify-center">
-                            <h2 className="text-2xl font-semibold">
-                                {workoutProgram.program.title} |{" "}
-                                {workoutProgram.program.length}
+                        <div className="ml-5 flex flex-col justify-between">
+                            <h2 className="text-2xl font-semibold mt-5">
+                                {workoutProgram.program.title} | Week{" "}
+                                {weekOfTraining}
                             </h2>
-                            <p className="">{completedSessions}/{totalSessions} workout sessions</p>
-                            <ProgressBar completed={completedSessions} total={totalSessions} />
+                            <div className="flex flex-col mb-5">
+                                <p className="">
+                                    {completedSessions}/{totalSessions} workout
+                                    sessions
+                                </p>
+                                <ProgressBar
+                                    completed={completedSessions}
+                                    total={totalSessions}
+                                />
+                            </div>
                         </div>
                     </>
                 )}
