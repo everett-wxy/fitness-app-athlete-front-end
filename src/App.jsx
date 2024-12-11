@@ -6,11 +6,14 @@ import AccountCreation from "./components/AccountCreation.jsx";
 import WorkoutProgram from "./components/WorkoutProgram/WorkoutProgram.jsx";
 import Planner from "./components/Planner/Planner.jsx";
 import SessionDetails from "./components/WorkoutSession/SessionDetails.jsx";
+import Navigation from "./components/Navigation/Navigation.jsx";
 
 function App() {
     return (
         <WorkoutProgramProvider>
             <Router>
+                {/* Navigation Bar */}
+                <Navigation />
                 <Routes>
                     <Route path="/register" element={<AccountCreation />} />
                     <Route path="/login" element={<Login />} />
@@ -19,7 +22,10 @@ function App() {
                         element={<WorkoutProgram />}
                     />
                     <Route path="/planner" element={<Planner />} />
-                    <Route path="/session-details/:sessionId" element={<SessionDetails />} />
+                    <Route
+                        path="/session-details/:sessionId"
+                        element={<SessionDetails />}
+                    />
                 </Routes>
             </Router>
         </WorkoutProgramProvider>

@@ -1,74 +1,79 @@
-import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
+import Exercise from "./Exercise";
 
 const SessionDetails = () => {
-    const { state } = useLocation(); // Retrieve session data from state
+    useWorkoutProgram();
+    const navigate = useNavigate();
+
     const { sessionId } = useParams(); // Get session ID from URL
     const { workoutProgram } = useWorkOutProgramContext();
-    
-    console.log(state?.session); // Logs the session data passed from the previous page
+    const [session, setSession] = useState(null);
 
-    // Find session details for the given session_id
-    const sessionDetails = workoutProgram.sessionDetails.filter(
-        (detail) => detail.session_id === parseInt(sessionId)
+    useEffect(() => {
+        if (workoutProgram) {
+            const session = workoutProgram.sessions.find(
+                (session) => session.session_id === Number(sessionId)
+            );
+            setSession(session);
+        }
+    }, [workoutProgram, sessionId]);
+
+    const sessionDetail = workoutProgram?.sessionDetails.filter(
+        (sessionDetail) => sessionDetail.session_id === Number(sessionId)
     );
 
-    // Manage updates for sets, reps, and weights
-    const [updatedDetails, setUpdatedDetails] = useState(sessionDetails);
+    const unsortedExerciseGroups = sessionDetail?.reduce(
+        (newArray, oldArray) => {
+            const existingGroup = newArray.find(
+                (group) => group[0].exercise_name === oldArray.exercise_name
+            );
+            if (existingGroup) {
+                existingGroup.push(oldArray);
+            } else {
+                newArray.push([oldArray]);
+            }
+            return newArray;
+        },
+        []
+    );
 
-    const handleUpdate = (index, field, value) => {
-        const updated = [...updatedDetails];
-        updated[index][field] = value;
-        setUpdatedDetails(updated);
-    };
+    // Sort the groups by exercise_no first, and then sort within each group by sets
+    const exerciseGroups = unsortedExerciseGroups
+        ?.sort((groupA, groupB) => {
+            // Compare exercise_no of the first exercise in each group
+            const exerciseNoA = groupA[0].exercise_no;
+            const exerciseNoB = groupB[0].exercise_no;
+            return exerciseNoA - exerciseNoB; // Sort by exercise_no
+        })
+        ?.map((group) => {
+            // After sorting the groups by exercise_no, now sort each group by sets
+            return group.sort((a, b) => a.sets - b.sets);
+        });
+
+    const exerciseGroupsJSX = exerciseGroups?.map((exerciseSetArray, index) => {
+        return <Exercise key={index} exerciseSetArray={exerciseSetArray} />;
+    });
+
+    if (!workoutProgram) {
+        return <div>No workout program available</div>;
+    }
 
     return (
-        <div className="p-5">
-            <h1 className="text-2xl font-bold mb-5">
-                {state?.session?.title} - {state?.session?.length} minutes
-            </h1>
-            <div>
-                {updatedDetails.map((exercise, index) => (
-                    <div key={exercise.id} className="mb-3">
-                        <p className="font-semibold">{exercise.exercise_name}</p>
-                        <div className="flex space-x-3">
-                            <input
-                                type="number"
-                                value={exercise.sets}
-                                onChange={(e) =>
-                                    handleUpdate(index, "sets", e.target.value)
-                                }
-                                className="border p-2"
-                                placeholder="Sets"
-                            />
-                            <input
-                                type="number"
-                                value={exercise.reps}
-                                onChange={(e) =>
-                                    handleUpdate(index, "reps", e.target.value)
-                                }
-                                className="border p-2"
-                                placeholder="Reps"
-                            />
-                            <input
-                                type="number"
-                                value={exercise.weight}
-                                onChange={(e) =>
-                                    handleUpdate(index, "weight", e.target.value)
-                                }
-                                className="border p-2"
-                                placeholder="Weight"
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
+        <div className="p-5 w-2/3 flex-col mx-auto">
+            <h1 className="text-4xl font-semibold mb-3">{session?.title}</h1>
+            <h2 className="text-1xl font-semibold mb-3">
+                {workoutProgram.program.title} | Week{" "}
+                {session?.week_of_training} | Session {session?.session_no}
+            </h2>
+            {exerciseGroupsJSX}
             <button
-                onClick={() => console.log("Updated Details", updatedDetails)}
-                className="bg-green-500 text-white px-3 py-1 mt-5 rounded-md"
+                className="bg-blue-500 text-white px-4 py-2 rounded mb-5"
+                onClick={() => navigate("/planner")}
             >
-                Save Progress
+                Back to Planner
             </button>
         </div>
     );

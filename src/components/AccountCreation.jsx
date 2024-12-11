@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const AccountCreation = () => {
     const fetchData = useFetch();
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(6);
     const [formData, setFormData] = useState({
         email: "everett@gmail.com",
         password: "Password123",
