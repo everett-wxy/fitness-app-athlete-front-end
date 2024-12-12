@@ -5,18 +5,19 @@ import { useNavigate } from "react-router-dom";
 const Navigation = () => {
     const navigate = useNavigate();
 
+    const decodeToken = (token) => {
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            // Decodes the middle part (payload) using atob(), which converts the base64-encoded string to a regular string.
+            // Parses the decoded string into a JavaScript object using JSON.parse()
+            return payload;
+        } catch (e) {
+            console.error("Invalid token:", e);
+            return null;
+        }
+    };
+
     const isLoggedIn = () => {
-        const decodeToken = (token) => {
-            try {
-                const payload = JSON.parse(atob(token.split(".")[1])); 
-                // Decodes the middle part (payload) using atob(), which converts the base64-encoded string to a regular string.
-                // Parses the decoded string into a JavaScript object using JSON.parse()
-                return payload;
-            } catch (e) {
-                console.error("Invalid token:", e);
-                return null;
-            }
-        };
         const token = localStorage.getItem("token");
         if (!token) return false;
 
@@ -27,6 +28,20 @@ const Navigation = () => {
         } catch (error) {
             console.error("Invalid token:", error);
             return false;
+        }
+    };
+
+    const getUserRole = () => {
+        const token = localStorage.getItem("token");
+        if (!token) return null;
+
+        try {
+            const decoded = decodeToken(token);
+            console.log("decoded", decoded.role);
+            return decoded.role; // Assuming 'role' is a part of the token payload
+        } catch (error) {
+            console.error("Invalid token:", error);
+            return null;
         }
     };
 
@@ -44,7 +59,7 @@ const Navigation = () => {
                         Athlete
                     </Link>
                 </div>
-                
+
                 {/* Navigation Links */}
                 {isLoggedIn() && (
                     <div className="space-x-6">
@@ -60,12 +75,15 @@ const Navigation = () => {
                         >
                             Planner
                         </Link>
-                        <Link
-                            to="/users"
-                            className="text-lg hover:text-blue-400"
-                        >
-                            Users
-                        </Link>
+                        {getUserRole() === "admin" && (
+                            <Link
+                                to="/users"
+                                className="text-lg hover:text-blue-400"
+                            >
+                                Users
+                            </Link>
+                        )}
+
                         <button
                             onClick={handleLogout}
                             className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { Link, useNavigate } from "react-router-dom";
+import AnimatedText from "./AnimatedText";
 
 const Login = () => {
     const fetchData = useFetch();
@@ -40,38 +41,6 @@ const Login = () => {
         }
     };
 
-    const [text, setText] = useState("");
-    const fullText = "Greatness is not more unique to us than breathing.";
-    const fullText2 = "We're all capable of it";
-
-
-    useEffect(() => {
-        let i = 0; // Track the index for the fullText
-        let typingInterval;
-
-        const startTyping = () => {
-            typingInterval = setInterval(() => {
-                if (i < fullText.length-1) {
-                    setText((prev) => prev + fullText[i]); // Append the character
-                    i++;
-                } else {
-                    clearInterval(typingInterval); // Stop typing once done
-                    // No restart or loop, just stop at the end
-                }
-            }, 100); // Typing speed
-        };
-
-        startTyping(); // Start the typing effect
-
-        return () => clearInterval(typingInterval); // Cleanup interval on component unmount
-    }, []); // Empty dependency array ensures this effect runs once on mount
-
-
-    useEffect(() => {
-        if (isLoggedIn()) {
-            navigate("/planner");
-        }
-    }, [navigate]); // best practice to include
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -93,11 +62,9 @@ const Login = () => {
         if (ok) {
             const { accessToken } = data;
             localStorage.setItem("token", accessToken);
-            alert("Logged in successfully");
             navigate("/planner");
         } else {
             console.error(msg);
-            alert("Login failed");
         }
     };
 
@@ -150,21 +117,22 @@ const Login = () => {
 
     return (
         <div className="flex justify-center flex-grow">
-            <div className="w-7/12 relative">
+            <div className="w-7/12 relative justify-center items-center">
                 <video
                     ref={videoRef}
-                    className="object-cover object-center h-full w-full max-h-screen"
+                    className="object-cover  object-center  h-full w-full"
                     alt="workout video"
                     autoPlay
                     muted
                 />
-                <h1 className="absolute top-1/4 left-1/2 transform -translate-x-1/2 text-white text-5xl font-semibold z-10">
-                    {text}
+                <h1 className="absolute top-7 left-7 text-custom-off-white-two text-5xl font-semibold z-10">
+                    Athlete
                 </h1>
+                <AnimatedText/>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center p-8 items-center">
-                <h1 className="w-2/3 max-w-sm text-5xl font-semibold">
+            <div className="flex-1 flex flex-col justify-center p-8 items-center bg-custom-off-white-two">
+                <h1 className="w-2/3 max-w-sm text-5xl font-semibold leading-snug text-custom-dark-two">
                     Welcome Back Athlete
                 </h1>
                 <form
@@ -174,28 +142,25 @@ const Login = () => {
                     <input
                         type="email"
                         placeholder="Email"
-                        className="p-2 border border-gray-900 rounded"
+                        className="p-2 border border-gray-900 rounded bg-custom-off-white-two"
                         value={email}
                         onChange={onChangeEmail}
                     />
                     <input
                         type="password"
                         placeholder="Password"
-                        className="p-2 border border-gray-900 rounded"
+                        className="p-2 border border-gray-900 rounded bg-custom-off-white-two"
                         value={password}
                         onChange={onChangePassword}
                     />
                     <button
-                        className="bg-blue-500 text-white p-2 rounded"
+                        className="bg-custom-dark-two text-white p-2 rounded hover:bg-custom-grey"
                         type="submit"
                     >
                         Login
                     </button>
-                    <p>Don't have an account?</p>
-                    <Link
-                        to="/register"
-                        className="text-blue-500 hover:underline"
-                    >
+                    <p className="text-custom-dark-two">Don't have an account?</p>
+                    <Link to="/register" className="text-custom-grey underline">
                         Sign up here
                     </Link>
                 </form>
