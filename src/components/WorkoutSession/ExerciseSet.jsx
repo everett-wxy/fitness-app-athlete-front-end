@@ -36,7 +36,9 @@ const ExerciseSet = ({ set }) => {
     const handleCompleteSet = async () => {
         setIsCompleted(true); // Mark as completed locally first
         await updateSessionDetailsInDatabase();
+        await checkIfAllSetsCompleted();
     };
+
 
     const updateSessionDetailsInDatabase = async () => {
         const body = {
@@ -62,6 +64,22 @@ const ExerciseSet = ({ set }) => {
         }
     };
 
+    const checkIfAllSetsCompleted = async () => {
+        const { ok , msg, data} = await fetchData(
+            "/session/checkCompletion",
+            "POST",
+            { session_id },
+            true
+        );
+
+        if (ok) {
+            console.log(msg);
+        } else {
+            console.error("Error checking session completion", msg);
+        }
+
+    };
+    
     return (
         <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md mb-4">
             {/* Sets */}

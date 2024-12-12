@@ -23,7 +23,7 @@ const useFetch = () => {
             return { ok: false, msg: data.message || "Request failed" };
         }
 
-        return { ok: true, data };
+        return { ok: true, msg: data.message, data };
     };
 
     return fetchData;
