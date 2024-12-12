@@ -7,14 +7,14 @@ const AvailableTime = ({
 }) => {
     return (
         <>
-            <h1 className="text-4xl font-medium">
+            <h1 className="text-4xl font-semibold  mt-10">
                 How much time can you train per week?
             </h1>
-            <form className="flex flex-col" onSubmit={trainingPreferenceSubmit}>
-                <div className="my-4">
+            <form className="flex flex-col space-y-5" onSubmit={trainingPreferenceSubmit}>
+                <div className="flex flex-col space-y-5">
                     <label
                         htmlFor="daysToTrain"
-                        className="text-xl font-medium"
+                        className="font-semibold"
                     >
                         How many days per week can you train?
                     </label>
@@ -30,10 +30,10 @@ const AvailableTime = ({
                     />
                     <span>{formData.availableDaysToTrain} Day(s)</span>
                 </div>
-                <div className="my-4">
+                <div className="flex flex-col space-y-4">
                     <label
                         htmlFor="trainingTime"
-                        className="text-xl font-medium"
+                        className="font-semibold"
                     >
                         How long will your training sessions be?
                     </label>
@@ -57,7 +57,7 @@ const AvailableTime = ({
                     <span>Selected: {formData.availableTimetoTrain} mins</span>
                 </div>
                 <button
-                    className="border border-black rounded-md p-1 my-2"
+                    className="bg-custom-grey text-custom-off-white-two rounded-md p-1 hover:bg-custom-dark"
                     type="submit"
                 >
                     continue

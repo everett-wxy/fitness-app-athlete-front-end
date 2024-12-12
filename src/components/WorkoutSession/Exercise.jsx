@@ -49,9 +49,27 @@ const Exercise = ({ exerciseSetArray }) => {
         return <ExerciseSet index={index} set={set} />;
     });
 
+    let imgLink =""; 
+    switch (exerciseName) {
+        case "Dumbbell bench press":
+            imgLink = "https://swolverine.com/cdn/shop/articles/Incline_Dumbbell_Bench_Press_1024x.jpg?v=1645633411";
+            break; 
+        case "Deadlift":
+            imgLink = "https://plus.unsplash.com/premium_photo-1663134196858-317927dda72c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+            break;
+        case "Barbell squats":
+            imgLink = "https://images.unsplash.com/photo-1541600383005-565c949cf777?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+            break;
+        case "Barbell shoulder press":
+            imgLink = "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+            break;
+        case "Dumbbell rows":
+            imgLink = "https://www.bodybuilding.com/fun/images/2015/marc-megnas-lifting-lessons-single-arm-dumbbell-row-facebook-960x540.jpg";
+            break;
+    }
 
-    const imgLink =
-        "https://images.unsplash.com/photo-1541600383005-565c949cf777?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    // const imgLink =
+    //     "https://images.unsplash.com/photo-1541600383005-565c949cf777?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
         return (
             <>
                 {/* Exercise Card */}
@@ -65,7 +83,7 @@ const Exercise = ({ exerciseSetArray }) => {
                         <h1 className="text-lg font-semibold text-gray-700">
                             Exercise {exerciseNo}
                         </h1>
-                        <h1 className="text-lg font-bold text-blue-600">
+                        <h1 className="text-lg font-bold text-custom-accent">
                             {exerciseName}
                         </h1>
                     </div>
@@ -86,19 +104,6 @@ const Exercise = ({ exerciseSetArray }) => {
                             reps
                         </p>
                     </div>
-                </div>
-        
-                {/* Table Header */}
-                <div className="flex bg-gray-100 py-2 px-4 rounded-md shadow-sm mb-2">
-                    <h1 className="w-1/3 text-center font-semibold text-gray-700">
-                        Set
-                    </h1>
-                    <h1 className="w-1/3 text-center font-semibold text-gray-700">
-                        Reps
-                    </h1>
-                    <h1 className="w-1/3 text-center font-semibold text-gray-700">
-                        Weight
-                    </h1>
                 </div>
         
                 {/* Sets Data */}

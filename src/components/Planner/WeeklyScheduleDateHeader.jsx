@@ -6,7 +6,7 @@ const WeeklyScheduleDateHeader = ({ date }) => {
     const dayOfMonth = date.getDate();
 
     return (
-        <h1 className="text-1xl font-semibold my-5">
+        <h1 className="text-2xl font-semibold my-5">
             {dayOfWeek}, {month} {dayOfMonth}
         </h1>
     );

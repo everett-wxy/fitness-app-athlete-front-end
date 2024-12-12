@@ -47,7 +47,6 @@ const AccountCreation = () => {
         if (ok) {
             const { status, message, token } = data;
             localStorage.setItem("token", token);
-            console.log("User registered");
             setCurrentStep(2);
         } else {
             console.error(msg);
@@ -64,7 +63,6 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            console.log("User details updated");
         } else {
             console.error(msg);
             alert("User details update failed");
@@ -80,7 +78,6 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            console.log("physical measurement recorded");
         } else {
             console.error(msg);
             alert("physical measurement failed to record: ");
@@ -96,8 +93,6 @@ const AccountCreation = () => {
         );
 
         if (ok) {
-            console.log("Training preference recorded: ");
-
             setCurrentStep((prevStep) => prevStep + 1);
         } else {
             console.error(msg);
@@ -113,7 +108,6 @@ const AccountCreation = () => {
             true
         );
         if (ok) {
-            alert("Equipment access recorded");
         } else {
             console.error(msg);
             alert("Equipment access failed to record:");
@@ -129,8 +123,6 @@ const AccountCreation = () => {
         );
     
         if (ok) {
-            // If successful, alert the user and handle the workout data
-            alert("Workout program generated");
             // updateWorkoutProgram(data.trainingProgram);
             navigate("/workoutProgram");
         } else {
@@ -237,8 +229,8 @@ const AccountCreation = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center h-screen">
-            <div className="flex-col w-6/12">
+        <div className="flex flex-col p-20 items-center h-screen bg-custom-off-white-two">
+            <div className="flex-col w-1/3 max-w-3xl space-y-5">
                 {currentStep === 1 && (
                     <SignUp
                         handleSubmit={handleSubmit}

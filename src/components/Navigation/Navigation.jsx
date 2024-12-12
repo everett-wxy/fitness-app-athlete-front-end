@@ -37,7 +37,6 @@ const Navigation = () => {
 
         try {
             const decoded = decodeToken(token);
-            console.log("decoded", decoded.role);
             return decoded.role; // Assuming 'role' is a part of the token payload
         } catch (error) {
             console.error("Invalid token:", error);
@@ -51,42 +50,44 @@ const Navigation = () => {
     };
 
     return (
-        <nav className="bg-gray-800 text-white py-4 shadow-lg">
-            <div className="container mx-auto flex justify-between items-center">
-                {/* Logo or App Name */}
-                <div className="text-xl font-bold">
-                    <Link to="/" className="hover:text-blue-400">
+        <nav className="bg-custom-dark-two text-white py-4 shadow-lg fixed top-0 left-0 w-full z-50">
+            <div className="flex h-8">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl font-semibold">
+                    <Link
+                        to="/"
+                        className="hover:text-custom-accent text-custom-off-white-two"
+                    >
                         Athlete
                     </Link>
                 </div>
 
-                {/* Navigation Links */}
                 {isLoggedIn() && (
-                    <div className="space-x-6">
-                        <Link
-                            to="/workoutProgram"
-                            className="text-lg hover:text-blue-400"
-                        >
-                            Workout Program
-                        </Link>
-                        <Link
-                            to="/planner"
-                            className="text-lg hover:text-blue-400"
-                        >
-                            Planner
-                        </Link>
-                        {getUserRole() === "admin" && (
+                    <div className="flex justify-between w-full px-10">
+                        <div className="flex items-center space-x-6 ">
                             <Link
-                                to="/users"
-                                className="text-lg hover:text-blue-400"
+                                to="/workoutProgram"
+                                className="text-lg hover:border-b-2 hover:border-custom-accent hover:pb-0 text-custom-off-white-two"
                             >
-                                Users
+                                Workout Program
                             </Link>
-                        )}
-
+                            <Link
+                                to="/planner"
+                                className="text-lg hover:border-b-2 hover:border-custom-accent hover:pb-0 text-custom-off-white-two"
+                            >
+                                Planner
+                            </Link>
+                            {getUserRole() === "admin" && (
+                                <Link
+                                    to="/users"
+                                    className="text-lg hover:border-b-2 hover:border-custom-accent hover:pb-0 text-custom-off-white-two"
+                                >
+                                    Users
+                                </Link>
+                            )}
+                        </div>
                         <button
                             onClick={handleLogout}
-                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                            className="bg-custom-grey text-custom-off-white-two px-4 py-2 rounded hover:bg-custom-accent flex items-center justify-center"
                         >
                             Logout
                         </button>

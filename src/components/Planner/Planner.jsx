@@ -63,8 +63,8 @@ const Planner = () => {
     }, [displayDate]);
 
     return (
-        <div className="flex justify-center">
-            <div className="w-3/4 flex flex-col">
+        <div className="flex justify-center bg-custom-off-white-two min-h-screen overflow-auto">
+            <div className="w-2/4 max-w-3xl flex flex-col mt-20 bg-custom-off-white-two">
                 <div className="marginTop h-5 w-24"></div>
                 <DateHeader displayDate={displayDate} />
                 <ScrollingDateSelector

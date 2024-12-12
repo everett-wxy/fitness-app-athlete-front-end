@@ -9,7 +9,7 @@ const CurrentProgram = ({ displayDate }) => {
     const { workoutProgram } = useWorkOutProgramContext();
 
     const imgLink =
-        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        "https://images.unsplash.com/photo-1506197061617-7f5c0b093236?q=80&w=2018&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
     const totalSessions = workoutProgram?.sessions?.length;
     const completedSessions = workoutProgram?.sessions?.filter(
@@ -53,7 +53,7 @@ const CurrentProgram = ({ displayDate }) => {
     return (
         <>
             <h1 className="text-2xl font-semibold mt-5">Current Program</h1>
-            <div className="mt-5 flex border border-black">
+            <div className="mt-5 flex bg-gray-200">
                 {!workoutProgram || !workoutProgram.program || !weekOfTraining ? (
                     <p>No workout program scheduled for this week. Please generate one.</p>
                 ) : (

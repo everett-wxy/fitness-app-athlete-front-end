@@ -3,11 +3,11 @@ import React from "react";
 const SignUp = ({ handleSubmit, handleChange, formData, validation }) => {
     return (
         <>
-            <h1 className="text-4xl font-medium">Create an account</h1>
-            <form className="flex flex-col" onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
+            <h1 className="text-4xl font-semibold mt-10">Create an account</h1>
+            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+                <label className="font-semibold" htmlFor="email">Email</label>
                 <input
-                    className="border border-black rounded-md p-1 my-2"
+                    className="rounded-md p-1"
                     id="email"
                     type="text"
                     name="email"
@@ -22,9 +22,9 @@ const SignUp = ({ handleSubmit, handleChange, formData, validation }) => {
                 ) : (
                     <p></p>
                 )}
-                <label htmlFor="password">Password</label>
+                <label className="font-semibold" htmlFor="password">Password</label>
                 <input
-                    className="border border-black rounded-md p-1 my-2"
+                    className="rounded-md p-1"
                     id="password"
                     type="password"
                     name="password"
@@ -40,9 +40,9 @@ const SignUp = ({ handleSubmit, handleChange, formData, validation }) => {
                 ) : (
                     <p></p>
                 )}
-                <label htmlFor="passwordConfirmation">Confirm Password</label>
+                <label className="font-semibold" htmlFor="passwordConfirmation">Confirm Password</label>
                 <input
-                    className="border border-black rounded-md p-1 my-2"
+                    className="rounded-md p-1"
                     id="passwordConfirmation"
                     type="password"
                     name="passwordConfirmation"
@@ -57,7 +57,7 @@ const SignUp = ({ handleSubmit, handleChange, formData, validation }) => {
                     <p></p>
                 )}
                 <button
-                    className={`border border-black rounded-md p-1 my-2 ${
+                    className={`bg-custom-grey text-custom-off-white-two rounded-md p-1 hover:bg-custom-dark ${
                         !(
                             validation.passwordConfirmation &&
                             formData.password &&

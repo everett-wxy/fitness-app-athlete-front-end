@@ -41,6 +41,9 @@ const Login = () => {
         }
     };
 
+    if (isLoggedIn()) {
+        navigate("/planner");
+    }
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value);

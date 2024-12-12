@@ -62,20 +62,24 @@ const SessionDetails = () => {
     }
 
     return (
-        <div className="p-5 w-2/3 flex-col mx-auto">
-            <h1 className="text-4xl font-semibold mb-3">{session?.title}</h1>
-            <h2 className="text-1xl font-semibold mb-3">
-                {workoutProgram.program.title} | Week{" "}
-                {session?.week_of_training} | Session {session?.session_no}
-            </h2>
-            {exerciseGroupsJSX}
-            <button
-                className="bg-blue-500 text-white px-4 py-2 rounded mb-5"
-                onClick={() => navigate("/planner")}
-            >
-                Back to Planner
-            </button>
-        </div>
+
+            <div className="bg-custom-off-white">
+                <div className="p-5 w-2/4 max-w-3xl flex-col mx-auto mt-20 ">
+                    <h1 className="text-4xl font-semibold mb-3">{session?.title}</h1>
+                    <h2 className="text-1xl font-semibold mb-3">
+                        {workoutProgram.program.title} | Week{" "}
+                        {session?.week_of_training} | Session {session?.session_no}
+                    </h2>
+                    {exerciseGroupsJSX}
+                    <button
+                        className="bg-custom-dark text-white px-4 py-2 rounded mb-5"
+                        onClick={() => navigate("/planner")}
+                    >
+                        Back to Planner
+                    </button>
+                </div>
+            </div>
+
     );
 };
 

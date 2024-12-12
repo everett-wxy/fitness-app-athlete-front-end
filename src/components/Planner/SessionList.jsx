@@ -1,5 +1,6 @@
 import React from "react";
 import SessionModule from "./sessionModule";
+import RestModule from "./RestModule";
 
 const SessionList = ({ date, sessions, resetDateToMidnight }) => {
     if (!sessions || sessions.length === 0) {
@@ -13,9 +14,7 @@ const SessionList = ({ date, sessions, resetDateToMidnight }) => {
 
         if (convertedDate.getTime() === sessionDate.getTime()) {
             return <SessionModule key={index} session={session} />;
-        }
-
-        return null;
+        } else return null;
     });
 
     return (

@@ -58,7 +58,7 @@ const ExerciseSet = ({ set }) => {
         );
 
         if (ok) {
-            console.log("Session updated successfully", data);
+
         } else {
             console.error("Error updating session", msg);
         }
@@ -73,7 +73,6 @@ const ExerciseSet = ({ set }) => {
         );
 
         if (ok) {
-            console.log(msg);
         } else {
             console.error("Error checking session completion", msg);
         }
@@ -84,7 +83,7 @@ const ExerciseSet = ({ set }) => {
         <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md mb-4">
             {/* Sets */}
             <div className="flex-1 text-center font-medium text-gray-700">
-                <span className="block text-lg text-blue-600">Sets</span>
+                <span className="block text-lg text-custom-accent">Sets</span>
                 {sets}
             </div>
 
@@ -127,7 +126,7 @@ const ExerciseSet = ({ set }) => {
                     className={`px-4 py-2 rounded-md text-white font-semibold ${
                         isCompleted
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
+                            : "bg-custom-accent hover:bg-custom-dark focus:ring-2 focus:ring-blue-400"
                     }`}
                     disabled={isCompleted} // Disable the button if already completed
                 >

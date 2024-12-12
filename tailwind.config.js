@@ -10,6 +10,7 @@ export default {
                 "custom-light": "#EDF2F4",
                 "custom-off-white": '#FAF9F6',
                 "custom-off-white-two": '#FAF8F5',
+                "custom-accent": '#BA0F30',
             },
         },
     },

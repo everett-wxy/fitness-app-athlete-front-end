@@ -2,6 +2,7 @@ import React from "react";
 import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
 import WeeklyScheduleDateHeader from "./WeeklyScheduleDateHeader";
 import SessionList from "./SessionList";
+import RestModule from "./RestModule";
 
 const WeeklySchedule = ({ datesOfWeek }) => {
     const { workoutProgram } = useWorkOutProgramContext();
@@ -17,9 +18,10 @@ const WeeklySchedule = ({ datesOfWeek }) => {
         return date;
     };
 
+
     return (
         <>
-            <h1 className="text-2xl font-semibold my-5">Weekly Schedule</h1>
+            <h1 className="text-4xl font-semibold mt-14">Weekly Schedule</h1>
             {datesOfWeek.map((date, index) => (
                 <div key={index}>
                     <WeeklyScheduleDateHeader date={date} />
@@ -28,6 +30,7 @@ const WeeklySchedule = ({ datesOfWeek }) => {
                         sessions={workoutProgram.sessions}
                         resetDateToMidnight={resetDateToMidnight}
                     />
+                    <RestModule key={index} date={date} sessions={workoutProgram.sessions} resetDateToMidnight={resetDateToMidnight}/>
                 </div>
             ))}
         </>

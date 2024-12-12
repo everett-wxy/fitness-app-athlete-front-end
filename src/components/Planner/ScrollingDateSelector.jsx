@@ -17,7 +17,7 @@ const ScrollingDateSelector = ({
         return (
             <div
                 key={index}
-                className={`flex flex-col items-center w-12 h-12 cursor-pointer ${isSelected ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                className={`flex flex-col items-center w-12 h-12 cursor-pointer ${isSelected ? "bg-custom-accent text-white" : "bg-gray-200"}`}
                 onClick={() => handleDateClick(date)}
             >
                 <p>{date.getDate()}</p>
