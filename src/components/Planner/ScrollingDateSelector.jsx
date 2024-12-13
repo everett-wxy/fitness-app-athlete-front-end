@@ -17,7 +17,7 @@ const ScrollingDateSelector = ({
         return (
             <div
                 key={index}
-                className={`flex flex-col items-center w-12 h-12 cursor-pointer ${isSelected ? "bg-custom-accent text-white" : "bg-gray-200"}`}
+                className="flex flex-col items-center cursor-pointer flex-1 bg-custom-dark-two text-custom-off-white-two rounded-md p-1"
                 onClick={() => handleDateClick(date)}
             >
                 <p>{date.getDate()}</p>
@@ -45,7 +45,7 @@ const ScrollingDateSelector = ({
     };
 
     return (
-        <div className="flex justify-between items-center my-5">
+        <div className="flex justify-between items-center my-5 gap-x-5">
             <FaArrowLeft onClick={handleArrowLeft} />
             {datesOfWeekDisplayJSX}
             <FaArrowRight onClick={handleArrowRight} />

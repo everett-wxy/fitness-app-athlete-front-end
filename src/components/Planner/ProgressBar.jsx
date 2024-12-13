@@ -4,7 +4,7 @@ const ProgressBar = ({ completed, total }) => {
     const progressPercentage = total === 0 ? 0 : (completed / total) * 100;
 
     return (
-        <div className="w-full bg-custom-off-white-two rounded-full h-4 justify-self-end">
+        <div className="w-full bg-white rounded-full h-4 justify-self-end">
             <div
                 className="bg-custom-accent h-4 rounded-full"
                 style={{ width: `${progressPercentage}%` }}

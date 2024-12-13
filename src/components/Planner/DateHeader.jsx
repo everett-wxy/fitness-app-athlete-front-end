@@ -11,7 +11,7 @@ const DateHeader = ({ displayDate }) => {
     return (
         
         <>
-            <h1 className="text-5xl font-bold my-5">
+            <h1 className="text-5xl font-semibold my-5">
                 {month}, {year}
             </h1>
         </>

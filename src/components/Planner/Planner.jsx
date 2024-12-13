@@ -44,7 +44,10 @@ const Planner = () => {
         setDatesOfWeek(datesOfCurrentWeek);
     };
 
-    const currentDate = new Date();
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 7);
+
+
     const [focusedDate, setFocusedDate] = useState(currentDate);
     const [displayDate, setDisplayDate] = useState(
         getMondayOfCurrentWeek(currentDate)

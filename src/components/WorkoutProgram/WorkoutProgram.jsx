@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useWorkOutProgramContext } from "../../context/WorkoutProgramContext";
 import { useNavigate } from "react-router-dom";
 import useWorkoutProgram from "../../hooks/useWorkoutProgram";
@@ -6,8 +6,16 @@ import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 const WorkoutProgram = () => {
     const { workoutProgram } = useWorkOutProgramContext();
     const navigate = useNavigate();
+    const [openSessions, setOpenSessions] = useState({}); // State to manage open/close for each session
 
     useWorkoutProgram();
+
+    const toggleSessionDetails = (sessionId) => {
+        setOpenSessions((prevState) => ({
+            ...prevState,
+            [sessionId]: !prevState[sessionId], // Toggle the current session
+        }));
+    };
 
     return (
         <div className="bg-custom-off-white-two rounded-lg shadow-md">
@@ -57,7 +65,7 @@ const WorkoutProgram = () => {
                                 </div>
                                 <p className="text-gray-600">
                                     <strong>Week:</strong>{" "}
-                                    {session.week_of_training},{" "}
+                                    {session.week_of_training} |{" "}
                                     <strong>Session:</strong>{" "}
                                     {session.session_no} |{" "}
                                     <strong>Date:</strong>{" "}
@@ -68,84 +76,98 @@ const WorkoutProgram = () => {
                                     {session.length} mins
                                 </p>
 
-                                {/* Session Details */}
-                                <ul className="mt-4 space-y-2">
-                                    {/* extract value and store in array  */}
-                                    {Object.values(
-                                        workoutProgram.sessionDetails
-                                            .filter(
-                                                (detail) =>
-                                                    detail.session_id ===
-                                                    session.session_id
-                                            )
-                                            .reduce(
-                                                (groupedExercises, detail) => {
-                                                    // Group by exercise name
-                                                    if (
-                                                        !groupedExercises[
-                                                            detail.exercise_name
-                                                        ]
-                                                    ) {
-                                                        groupedExercises[
-                                                            detail.exercise_name
-                                                        ] = {
-                                                            exercise_name:
-                                                                detail.exercise_name,
-                                                            completed:
-                                                                detail.completed,
-                                                            sets: [],
-                                                        };
-                                                    }
-                                                    // Push set details into the exercise group
-                                                    groupedExercises[
-                                                        detail.exercise_name
-                                                    ].sets.push({
-                                                        reps: detail.reps,
-                                                        weight: detail.weight,
-                                                    });
-                                                    return groupedExercises;
-                                                },
-                                                {}
-                                            )
-                                    ).map((exercise, idx) => (
-                                        <li
-                                            key={idx}
-                                            className="p-3 bg-gray-50 rounded-lg border border-gray-300"
-                                        >
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-semibold text-gray-800">
-                                                    {exercise.exercise_name}
-                                                </span>
-                                                <span
-                                                    className={`text-sm ${
-                                                        exercise.completed
-                                                            ? "text-green-600"
-                                                            : "text-custom-dark-two"
-                                                    }`}
-                                                >
-                                                    {exercise.completed
-                                                        ? "Completed"
-                                                        : "Incomplete"}
-                                                </span>
-                                            </div>
-                                            <p className="text-sm text-gray-600">
-                                                {exercise.sets
-                                                    .map(
-                                                        (set, i) =>
-                                                            `${set.reps} reps @ ${set.weight} kg${
-                                                                i <
-                                                                exercise.sets
-                                                                    .length -
-                                                                    1
-                                                                    ? ", "
-                                                                    : ""
-                                                            }`
+                                {/* Session Details Accordion */}
+                                <div>
+                                    <button
+                                        className="mt-4 w-full text-left font-medium text-custom-dark hover:text-custom-accent"
+                                        onClick={() =>
+                                            toggleSessionDetails(session.session_id)
+                                        }
+                                    >
+                                        {openSessions[session.session_id]
+                                            ? "Hide Details"
+                                            : "Show Details"}
+                                    </button>
+                                    {openSessions[session.session_id] && (
+                                        <ul className="mt-4 space-y-2">
+                                            {/* convert values of object into an array  */}
+                                            {Object.values(
+                                                workoutProgram.sessionDetails
+                                                    .filter(
+                                                        (detail) =>
+                                                            detail.session_id ===
+                                                            session.session_id
                                                     )
-                                                    .join("")}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
+                                                    .reduce(
+                                                        (groupedExercises, detail) => {
+                                                            // Group by exercise name
+                                                            if (
+                                                                !groupedExercises[
+                                                                    detail.exercise_name
+                                                                ]
+                                                            ) {
+                                                                groupedExercises[
+                                                                    detail.exercise_name
+                                                                ] = {
+                                                                    exercise_name:
+                                                                        detail.exercise_name,
+                                                                    completed:
+                                                                        detail.completed,
+                                                                    sets: [],
+                                                                };
+                                                            }
+                                                            // Push set details into the exercise group
+                                                            groupedExercises[
+                                                                detail.exercise_name
+                                                            ].sets.push({
+                                                                reps: detail.reps,
+                                                                weight: detail.weight,
+                                                            });
+                                                            return groupedExercises;
+                                                        },
+                                                        {}
+                                                    )
+                                            ).map((exercise, idx) => (
+                                                <li
+                                                    key={idx}
+                                                    className="p-3 bg-gray-50 rounded-lg border border-gray-300"
+                                                >
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="font-semibold text-gray-800">
+                                                            {exercise.exercise_name}
+                                                        </span>
+                                                        <span
+                                                            className={`text-sm ${
+                                                                exercise.completed
+                                                                    ? "text-green-600"
+                                                                    : "text-custom-dark-two"
+                                                            }`}
+                                                        >
+                                                            {exercise.completed
+                                                                ? "Completed"
+                                                                : "Incomplete"}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600">
+                                                        {exercise.sets
+                                                            .map(
+                                                                (set, i) =>
+                                                                    `${set.reps} reps @ ${set.weight} kg${
+                                                                        i <
+                                                                        exercise.sets
+                                                                            .length -
+                                                                            1
+                                                                            ? ", "
+                                                                            : ""
+                                                                    }`
+                                                            )
+                                                            .join("")}
+                                                    </p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
                             </li>
                         ))}
                     </ul>

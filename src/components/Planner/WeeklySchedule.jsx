@@ -21,7 +21,7 @@ const WeeklySchedule = ({ datesOfWeek }) => {
 
     return (
         <>
-            <h1 className="text-4xl font-semibold mt-14">Weekly Schedule</h1>
+            <h1 className="text-3xl font-semibold mt-8">Weekly Schedule</h1>
             {datesOfWeek.map((date, index) => (
                 <div key={index}>
                     <WeeklyScheduleDateHeader date={date} />

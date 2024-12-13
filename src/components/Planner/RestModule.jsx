@@ -28,11 +28,11 @@ const RestModule = ({ date, sessions, resetDateToMidnight }) => {
         <div className="flex border border-gray-300 rounded-lg shadow-md">
             <img
                 src={restDayImage}
-                style={{ width: 175, height: 175, objectFit: "cover" }}
+                style={{ width: 130, height: 130, objectFit: "cover" }}
             />
-            <div className="p-5 flex flex-col justify-center">
-                <p className="text-2xl font-semibold text-custom-grey">Rest Day</p>
-                <p className="text-gray-600">
+            <div className="p-5 flex flex-col justify-between gap-3">
+                <p className="text-1xl font-semibold text-custom-grey mb-2">Rest Day</p>
+                <p className="text-gray-600 text-sm">
                     Take this time to recover and recharge.<br />
                     Hydrate well, eat nutritious meals, and relax.
                 </p>
