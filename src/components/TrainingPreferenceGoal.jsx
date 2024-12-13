@@ -26,6 +26,7 @@ const TrainingPreferenceGoal = ({
                             }
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label
                             htmlFor="OverallFitness"
@@ -44,6 +45,7 @@ const TrainingPreferenceGoal = ({
                             checked={formData.trainingGoal === "Build Strength"}
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label htmlFor="BuildStrength" className="ml-2 text-lg">
                             Build Strength
@@ -76,6 +78,7 @@ const TrainingPreferenceGoal = ({
                             }
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label htmlFor="PrepareFor10K" className="ml-2 text-lg">
                             Prepare for 10K

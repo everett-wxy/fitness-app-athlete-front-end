@@ -65,6 +65,7 @@ const EquipmentAccess = ({ equipmentAccessSubmit, handleChange, formData }) => {
                             }
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label htmlFor="noEquipment" className="ml-2 text-lg">
                             No Equipment

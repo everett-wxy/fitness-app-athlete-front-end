@@ -39,6 +39,7 @@ const FitnessLevel = ({ trainingPreferenceSubmit, handleChange, formData }) => {
                             }
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label htmlFor="intermediate" className="ml-2 text-lg">
                             Intermediate
@@ -56,6 +57,7 @@ const FitnessLevel = ({ trainingPreferenceSubmit, handleChange, formData }) => {
                             }
                             onChange={handleChange}
                             className="form-radio text-blue-600 h-5 w-5"
+                            disabled
                         />
                         <label htmlFor="advanced" className="ml-2 text-lg">
                             Advanced

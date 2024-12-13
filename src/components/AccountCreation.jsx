@@ -4,10 +4,9 @@ import BasicInfo from "./BasicInfo";
 import useFetch from "../hooks/useFetch";
 import TrainingPreferenceGoal from "./TrainingPreferenceGoal";
 import FitnessLevel from "./FitnessLevel";
-import AvailableTime from "./availableTime";
+import AvailableTime from "./AvailableTime";
 import EquipmentAccess from "./EquipmentAccess";
 import { useNavigate } from "react-router-dom";
-
 
 const AccountCreation = () => {
     const fetchData = useFetch();
@@ -23,12 +22,11 @@ const AccountCreation = () => {
         weight: "",
         trainingGoal: "",
         startingFitnessLevel: "",
-        availableDaysToTrain: 0,
+        availableDaysToTrain: 3,
         availableTimetoTrain: 0,
         accessToEquipmentLevel: "",
     });
     const navigate = useNavigate();
-
 
     const [validation, setValidation] = useState({
         passwordValidation: true,
@@ -121,7 +119,7 @@ const AccountCreation = () => {
             null,
             true
         );
-    
+
         if (ok) {
             // updateWorkoutProgram(data.trainingProgram);
             navigate("/workoutProgram");
@@ -217,8 +215,8 @@ const AccountCreation = () => {
     const equipmentAccessSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createEquipmentAccess(formData); 
-            await generateWorkout();                  
+            await createEquipmentAccess(formData);
+            await generateWorkout();
         } catch (error) {
             console.error("An error occurred:", error);
         }
